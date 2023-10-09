@@ -1,39 +1,39 @@
 name: Create Jira Ticket Create
 on:
-	push:
-		branches:
-			- master
+  push:
+    branches:
+      - master
 
 jobs:
-	create_ticket:
-		runs-on: ubuntu-latest
+  create_ticket:
+    runs-on: ubuntu-latest
 
-		steps:
-		-	name: Checkout code
-			uses: actions/checkout@v2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-		-	name: Create Jira Ticket
-			env:
-				JIRA_BASE_URL: https://iseki.atlassian.net
-				JIRA_PROJECT_KEY: KAN
-				JIRA_USERNAME: ${{ secret.JIRA_USERNAME }}
-				JIRA_API_TOKEN: ${{ secret.JIRA_API_TOKEN }}
-			run: |
-				issue_data=$(cat <<EOF
-				{
-					"fields": {
-						"project": {
-							"key": "${ JIRA_PROJECT_KEY }"
-						},
-						"summary": "Example Issue",
-						"description": "これはGithubワークフローから起票したチケットです",
-						"issuetype": {
-							"name": "Task"
-						}
-					}
-				}
-				EOF
-				)
-				
-				response=$(curl -s -X POST -H "Content-Type: application/json" -u "${JIRA_USERNAME}:${JIRA_API_TOKEN}" --data "$issue_data" "${JIRA_BASE_URL}/rest/api/2/issue/")
-				echo "Created Jira ticket: $(echo $response)"
+    - name: Create Jira Ticket
+      env:
+        JIRA_BASE_URL: https://iseki.atlassian.net
+        JIRA_PROJECT_KEY: KAN
+        JIRA_USERNAME: ${{ secret.JIRA_USERNAME }}
+        JIRA_API_TOKEN: ${{ secret.JIRA_API_TOKEN }}
+      run: |
+        issue_data=$(cat <<EOF
+        {
+          "fields": {
+            "project": {
+              "key": "${ JIRA_PROJECT_KEY }"
+            },
+            "summary": "Example Issue",
+            "description": "これはGithubワークフローから起票したチケットです",
+            "issuetype": {
+              "name": "Task"
+            }
+          }
+        }
+        EOF
+        )
+        
+        response=$(curl -s -X POST -H "Content-Type: application/json" -u "${JIRA_USERNAME}:${JIRA_API_TOKEN}" --data "$issue_data" "${JIRA_BASE_URL}/rest/api/2/issue/")
+        echo "Created Jira ticket: $(echo $response)"
