@@ -16,8 +16,8 @@ jobs:
       env:
         JIRA_BASE_URL: https://iseki.atlassian.net
         JIRA_PROJECT_KEY: KAN
-        JIRA_USERNAME: ${{ JIRA_USERNAME }}
-        JIRA_API_TOKEN: ${{ JIRA_API_TOKEN }}
+        JIRA_USERNAME: ${{ JIRA.JIRA_USERNAME }}
+        JIRA_API_TOKEN: ${{ JIRA.JIRA_API_TOKEN }}
       run: |
         issue_data=$(cat <<EOF
         {
