@@ -23,7 +23,7 @@ jobs:
         {
           "fields": {
             "project": {
-              "key": "${ JIRA_PROJECT_KEY }"
+              "key": "${JIRA_PROJECT_KEY}"
             },
             "summary": "Example Issue",
             "description": "これはGithubワークフローから起票したチケットです",
