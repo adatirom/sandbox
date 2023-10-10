@@ -19,21 +19,22 @@ jobs:
         JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
         JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN2 }}
       run: |
-        issue_data=$(cat <<EOF
-        {
+        ticket_data='{
           "fields": {
             "project": {
-              "key": "${JIRA_PROJECT_KEY}"
+              "key": "'${{ env.JIRA_PROJECT_KEY }}'"
             },
-            "summary": "Example Issue",
-            "description": "これはGithubワークフローから起票したチケットです",
+            "summary": "New Issue Created by GitHub Actions",
+            "description": "This issue was created automatically by GitHub Actions.",
             "issuetype": {
               "name": "Task"
             }
           }
-        }
-        EOF
-        )
+        }'
         
-        response=$(curl -s -X POST -H "Content-Type: application/json" -u "${JIRA_USERNAME}:${JIRA_API_TOKEN}" --data "$issue_data" "${JIRA_BASE_URL}/rest/api/2/issue/")
-        echo "Created Jira ticket: $(echo $response)"
+        response=$(curl -s -X POST \
+          -H "Authorization: Basic $JIRA_API_TOKEN" \
+          -H "Content-Type: application/json" \
+          --data "$ticket_data" \
+          ${JIRA_BASE_URL}/rest/api/3/issue/)
+        echo "Created Jira ticket: $response"
