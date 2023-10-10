@@ -37,4 +37,4 @@ jobs:
           -H "Content-Type: application/json" \
           --data "$ticket_data" \
           ${JIRA_BASE_URL}/rest/api/3/issue/)
-        echo "Created Jira ticket: $response"
+        echo "Created Jira Ticket: $response"
